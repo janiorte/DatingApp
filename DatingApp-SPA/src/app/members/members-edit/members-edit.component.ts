@@ -19,6 +19,7 @@ export class MembersEditComponent implements OnInit {
     private authService: AuthService) { }
   @ViewChild('editForm', {static: true}) editForm: NgForm;
   user: User;
+  photoUrl: string;
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
     if (this.editForm.dirty) {
@@ -30,6 +31,8 @@ export class MembersEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data.user;
     });
+
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl );
   }
 
   updateUser() {
@@ -42,4 +45,7 @@ export class MembersEditComponent implements OnInit {
     );
   }
 
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
+  }
 }
